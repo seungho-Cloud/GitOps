@@ -48,12 +48,7 @@ jobs:
       with:
         version: 'latest'
     
-    - name: Set up Kubeconfig
+    - name: Set up Kubeconfig # Kubernetes 설정 파일을 설정합니다.
       run: |
-        echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
-    
-    - name: Deploy to AKS using ArgoCD
-      run: |
-        argocd login ${{ secrets.ARGOCD_SERVER }} --username ${{ secrets.ARGOCD_USERNAME }} --password ${{ secrets.ARGOCD_PASSWORD }} --insecure
-        argocd app sync my-nginx-app
-        argocd app wait my-nginx-app --health
+        mkdir -p $HOME/.kube # 디렉토리 생성
+        echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config # Kubeconfig
