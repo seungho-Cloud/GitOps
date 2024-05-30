@@ -32,8 +32,8 @@ jobs:
     
     - name: Build and push Docker image
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/my-nginx-app:${{ github.sha }} .
-        docker push ${{ secrets.DOCKER_USERNAME }}/my-nginx-app:${{ github.sha }}
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/GitOps:${{ github.sha }} .
+        docker push ${{ secrets.DOCKER_USERNAME }}/GitOps:${{ github.sha }}
 
   deploy:
     needs: docker_build
