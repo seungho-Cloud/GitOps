@@ -30,20 +30,20 @@ jobs:
       run: |
         echo ${{ secrets.ACR_PASSWORD }} | docker login ${{ secrets.ACR_NAME }}.azurecr.io --username ${{ secrets.ACR_USERNAME }} --password-stdin  
     
-    - name: Build and push Docker image
+    - name: Build and push Docker image # Docker 이미지를 빌드하고 ACR에 푸시합니다.
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/GitOps:${{ github.sha }} .
-        docker push ${{ secrets.DOCKER_USERNAME }}/GitOps:${{ github.sha }}
+        docker build -t ${{ secrets.ACR_NAME }}.azurecr.io/my-nginx-app:${{ github.sha }} .
+        docker push ${{ secrets.ACR_NAME }}.azurecr.io/my-nginx-app:${{ github.sha }}
 
   deploy:
-    needs: docker_build
+    needs: docker_build # docker_build 작업이 완료된 후 실행됩니다.
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout code
+    - name: Checkout code # 코드를 체크아웃합니다.
       uses: actions/checkout@v2
 
-    - name: Configure kubectl
+    - name: Configure kubectl # kubectl을 설정합니다.
       uses: azure/setup-kubectl@v1
       with:
         version: 'latest'
